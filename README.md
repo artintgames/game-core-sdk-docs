@@ -208,8 +208,9 @@ coreSDK.emit("game:finish", { score: 100 });
 
 ## 📚 Documentation
 
-- **[QUICK_START_DEMO.md](./QUICK_START_DEMO.md)** - Run Demo.html locally in 3 steps
-- **[API_USAGE.md](./API_USAGE.md)** - Complete API reference with examples
+- **[QUICK_START_DEMO.md](./QUICK_START_DEMO.md)** - Run Demo.html locally
+- **[EXAMPLES.md](./EXAMPLES.md)** - Ready-to-use code examples for browser console
+- **[API_USAGE.md](./API_USAGE.md)** - Complete API reference
 - **[FRONTEND_INTEGRATION.md](./FRONTEND_INTEGRATION.md)** - React integration guide
 - **[IMPLEMENTATION_SUMMARY.md](./IMPLEMENTATION_SUMMARY.md)** - Technical overview
 
