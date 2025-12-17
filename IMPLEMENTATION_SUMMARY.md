@@ -120,7 +120,7 @@ import { coreSDK } from 'game-sdk';
 await coreSDK.init({
   app: 'my-game',
   version: '1.0.0',
-  baseUrl: 'http://localhost:3000'
+  baseUrl: 'https://configs.artintgames.com'
 });
 ```
 
@@ -181,7 +181,7 @@ The SDK communicates with the API service at:
 `/Users/user/Documents/work/Gambling/ai-games-platform/configs`
 
 All endpoints match the SWAGGER documentation at:
-`http://localhost:3000/api/docs`
+`https://configs.artintgames.com/api/docs`
 
 ## Build Status
 
@@ -220,4 +220,4 @@ npm start
 
 - [API_USAGE.md](./API_USAGE.md) - Complete API reference
 - [FRONTEND_INTEGRATION.md](./FRONTEND_INTEGRATION.md) - React integration guide
-- Backend Swagger: `http://localhost:3000/api/docs`
+- Backend Swagger: `https://configs.artintgames.com/api/docs`

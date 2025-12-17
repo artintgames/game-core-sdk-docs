@@ -5,7 +5,7 @@ This guide shows how to integrate the Game Core SDK into your React frontend app
 ## Installation
 
 ```bash
-cd /home/pc/Gambling/game-core-sdk-frontend
+cd game-core-sdk-frontend
 npm install ../game-core-sdk
 ```
 
@@ -155,8 +155,8 @@ export const SDKProvider = ({ children }) => {
         await coreSDK.init({
           app: 'ai-games-platform',
           version: '1.0.0',
-          baseUrl: process.env.REACT_APP_BACKEND_URL || 'http://localhost:3000',
-          authUrl: process.env.REACT_APP_BACKEND_URL_AUTH || 'http://localhost:3001',
+          baseUrl: process.env.REACT_APP_BACKEND_URL || 'https://configs.artintgames.com',
+          authUrl: process.env.REACT_APP_BACKEND_URL_AUTH || ' https://auth.artintgames.com',
           skipAuth: true // Skip guest auth - we handle auth manually
         });
 
@@ -694,8 +694,8 @@ Add to `src/styles.css`:
 Create `.env` file:
 
 ```env
-REACT_APP_BACKEND_URL=http://localhost:3000
-REACT_APP_BACKEND_URL_AUTH=http://localhost:3001
+REACT_APP_BACKEND_URL=https://configs.artintgames.com
+REACT_APP_BACKEND_URL_AUTH= https://auth.artintgames.com
 ```
 
 ## TypeScript Support
@@ -723,8 +723,8 @@ export const SDKProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         await coreSDK.init({
           app: 'ai-games-platform',
           version: '1.0.0',
-          baseUrl: process.env.REACT_APP_BACKEND_URL || 'http://localhost:3000',
-          authUrl: process.env.REACT_APP_BACKEND_URL_AUTH || 'http://localhost:3001',
+          baseUrl: process.env.REACT_APP_BACKEND_URL || 'https://configs.artintgames.com',
+          authUrl: process.env.REACT_APP_BACKEND_URL_AUTH || ' https://auth.artintgames.com',
           skipAuth: true
         });
         setIsInitialized(true);
@@ -763,9 +763,9 @@ export const useSDK = (): CoreSDK => {
 ## Complete Working Example
 
 See the implementation in:
-- `/home/pc/Gambling/game-core-sdk` - SDK source
-- `/home/pc/Gambling/game-core-sdk-frontend` - Frontend application
-- `/home/pc/Gambling/ai-games-platform` - Backend services
+- `game-core-sdk` - SDK source
+- `game-core-sdk-frontend` - Frontend application
+- `ai-games-platform` - Backend services
 
 ---
 

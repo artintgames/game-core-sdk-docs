@@ -1,4 +1,4 @@
-# <img src="https://raw.githubusercontent.com/github/explore/main/topics/game/game.png" width="32" /> Game SDK
+# <img src="https://raw.githubusercontent.com/github/explore/main/topics/game/game.png" width="32" /> Game SDK 
 
 ![version](https://img.shields.io/badge/version-1.0.0-blue.svg)
 ![build](https://img.shields.io/badge/build-passed-brightgreen.svg)
@@ -18,7 +18,7 @@ Handles authentication, environment detection, device ID, token storage, event s
 - **Environment Detection** - Cordova / Web / Mobile
 - **Device ID Management** - Auto-generation + persistent cache
 - **Built-in EventBus** - `on`, `once`, `off`, `emit`
-- **API Clients** - Configs, A/B Tests, Remote Configs, Segments, Users, Health
+- **API Clients** - Configs, A/B Tests, Remote Configs, Segments, Users, Health, Auth, KV Storage, Events, Profile
 - **Error Tracking** - Sentry integration
 - **Production Ready** - ES & UMD bundles
 
@@ -39,8 +39,13 @@ src/
     AbTestsApiClient.ts     – A/B testing
     RemoteConfigsApiClient.ts – Remote configurations
     SegmentsApiClient.ts    – User segmentation
-    UsersApiClient.ts       – User management
+    UsersApiClient.ts       – User management (uses authUrl)
     HealthApiClient.ts      – Health checks
+    AuthApiClient.ts        – Authentication (uses authUrl)
+    KVApiClient.ts          – Key-Value storage
+    EventsApiClient.ts      – Event tracking
+  profile/                  – Profile module
+    Profile.ts              – User profile management (uses authUrl)
 dist/
   game-sdk.es.js            – ES module bundle (130KB)
   game-sdk.umd.js           – UMD build (83KB)
@@ -76,7 +81,8 @@ import { coreSDK } from "game-sdk";
 
 // Initialize SDK
 await coreSDK.init({
-  baseUrl: "http://localhost:3000",
+  baseUrl: "https://configs.artintgames.com",    // Main API server
+  authUrl: " https://auth.artintgames.com",    // Auth service (users, profile, auth)
   app: "my-game",
   version: "1.0.0"
 });
@@ -106,7 +112,8 @@ await coreSDK.configs.fetch({ v, scopes })
 await coreSDK.abTests.getAll()
 await coreSDK.abTests.getActive()
 await coreSDK.abTests.getById(id)
-await coreSDK.abTests.create({ key, name, groups, ... })
+await coreSDK.abTests.getVariant(id)
+await coreSDK.abTests.create({ key, name, groups, filters, startDate, endDate })
 await coreSDK.abTests.update(id, data)
 await coreSDK.abTests.patch(id, partial)
 await coreSDK.abTests.delete(id)
@@ -116,24 +123,27 @@ await coreSDK.abTests.delete(id)
 ```javascript
 await coreSDK.remoteConfigs.getAll()
 await coreSDK.remoteConfigs.getById(id)
-await coreSDK.remoteConfigs.create({ key, scope, name, data, ... })
+await coreSDK.remoteConfigs.create({ key, scope, name, value, dataType, description })
 await coreSDK.remoteConfigs.update(id, data)
 await coreSDK.remoteConfigs.delete(id)
+await coreSDK.remoteConfigs.refresh()
 ```
 
 ### Segments (`coreSDK.segments`)
 ```javascript
 await coreSDK.segments.getAll()
 await coreSDK.segments.getById(id)
-await coreSDK.segments.create({ name, filters, ... })
+await coreSDK.segments.getUserSegments()
+await coreSDK.segments.create({ key, name, description, filters })
 await coreSDK.segments.update(id, data)
 await coreSDK.segments.delete(id)
 ```
 
-### Users (`coreSDK.users`)
+### Users (`coreSDK.users`) - uses authUrl
 ```javascript
 await coreSDK.users.getAll()
 await coreSDK.users.getById(id)
+await coreSDK.users.search(query)
 await coreSDK.users.create({ email, username, password })
 await coreSDK.users.update(id, data)
 await coreSDK.users.delete(id)
@@ -143,6 +153,41 @@ await coreSDK.users.delete(id)
 ```javascript
 await coreSDK.health.getVersion()
 await coreSDK.health.check()
+await coreSDK.health.detailed()
+```
+
+### Auth (`coreSDK.auth`)
+```javascript
+await coreSDK.auth.guest(deviceId)
+await coreSDK.auth.login({ email, password })
+await coreSDK.auth.register({ email, username, password })
+await coreSDK.auth.logout()
+await coreSDK.auth.getMe()
+await coreSDK.auth.refresh()
+await coreSDK.auth.health()  // Auth service health check
+```
+
+### KV Storage (`coreSDK.kv`)
+```javascript
+await coreSDK.kv.list()
+await coreSDK.kv.get(key)
+await coreSDK.kv.set(key, value)
+await coreSDK.kv.delete(key)
+```
+
+### Events (`coreSDK.events`)
+```javascript
+await coreSDK.events.getAll()
+await coreSDK.events.send({ name, data, timestamp })
+```
+
+### Profile (`coreSDK.profile`)
+```javascript
+await coreSDK.profile.getMe()
+await coreSDK.profile.getByGid(gid)
+await coreSDK.profile.update(payload)
+await coreSDK.profile.getSummary(gid)
+await coreSDK.profile.getSummaryBatch(gids)
 ```
 
 ---
@@ -168,7 +213,7 @@ coreSDK.emit("game:finish", { score: 100 });
 - **[FRONTEND_INTEGRATION.md](./FRONTEND_INTEGRATION.md)** - React integration guide
 - **[IMPLEMENTATION_SUMMARY.md](./IMPLEMENTATION_SUMMARY.md)** - Technical overview
 
-Backend Swagger docs: `http://localhost:3000/api/docs`
+Backend Swagger docs: `https://configs.artintgames.com/api/docs`
 
 
 

@@ -16,8 +16,8 @@ import { coreSDK } from 'game-sdk';
 await coreSDK.init({
   app: 'my-game',
   version: '1.0.0',
-  baseUrl: 'http://localhost/v1',      // Configs service URL
-  authUrl: 'http://localhost/v1',       // Auth service URL (optional)
+  baseUrl: 'https://configs.artintgames.com',      // Configs service URL
+  authUrl: ' https://auth.artintgames.com',       // Auth service URL (optional)
   sentryDsn: 'your-sentry-dsn',           // optional
   skipAuth: false                          // Skip guest authentication (default: false)
 });
@@ -29,8 +29,8 @@ await coreSDK.init({
 |--------|------|----------|-------------|
 | `app` | string | No | Application name |
 | `version` | string | No | Application version |
-| `baseUrl` | string | No | Base API URL (must include /v1) |
-| `authUrl` | string | No | Auth API URL (must include /v1) |
+| `baseUrl` | string | No | Base URL for configs/API service |
+| `authUrl` | string | No | Auth service URL (separate from baseUrl) |
 | `sentryDsn` | string | No | Sentry DSN for error tracking |
 | `skipAuth` | boolean | No | Skip guest authentication during init |
 
@@ -224,6 +224,69 @@ const health = await coreSDK.health.check();
 console.log(health.status, health.timestamp);
 ```
 
+### 8. KV Storage API (`coreSDK.kv`)
+
+Key-Value storage using Redis:
+
+```typescript
+// Health check for KV service
+const kvHealth = await coreSDK.kv.health();
+console.log(kvHealth.status, kvHealth.redis?.connected);
+
+// List all keys
+const { keys } = await coreSDK.kv.list();
+console.log('Stored keys:', keys);
+
+// Set a value
+await coreSDK.kv.set('player:settings', JSON.stringify({ sound: true, music: false }));
+
+// Get a value
+const { value } = await coreSDK.kv.get('player:settings');
+const settings = JSON.parse(value);
+
+// Delete a key
+await coreSDK.kv.delete('player:settings');
+
+// Check if key exists
+const exists = await coreSDK.kv.exists('player:settings');
+
+// Batch operations
+// Get multiple values at once
+const values = await coreSDK.kv.getMany(['key1', 'key2', 'key3']);
+// Returns: { key1: 'value1', key2: 'value2', key3: null }
+
+// Set multiple values at once
+await coreSDK.kv.setMany({
+  'player:level': '5',
+  'player:score': '1000',
+  'player:name': 'John'
+});
+
+// Delete multiple keys at once
+await coreSDK.kv.deleteMany(['key1', 'key2', 'key3']);
+```
+
+#### Common Use Cases
+
+```typescript
+// Player Settings
+await coreSDK.kv.set('settings:sound', 'true');
+await coreSDK.kv.set('settings:music', 'false');
+await coreSDK.kv.set('settings:language', 'en');
+
+// Game Progress
+await coreSDK.kv.set('progress:level', '5');
+await coreSDK.kv.set('progress:checkpoint', 'boss_room');
+
+// Statistics
+await coreSDK.kv.set('stats:playtime', '3600');
+await coreSDK.kv.set('stats:highscore', '15000');
+
+// Tutorial Flags
+await coreSDK.kv.set('tutorial:intro_completed', 'true');
+await coreSDK.kv.set('tutorial:combat_completed', 'true');
+```
+
 ## Using Standalone API Clients
 
 You can also use the API clients independently:
@@ -234,7 +297,8 @@ import {
   ConfigsApiClient,
   AbTestsApiClient,
   RemoteConfigsApiClient,
-  AuthApiClient
+  AuthApiClient,
+  KVApiClient
 } from 'game-sdk';
 
 // Create API client with custom auth token getter
@@ -296,6 +360,13 @@ import type {
   VersionResponse,
   HealthResponse,
 
+  // KV Storage
+  KVHealthResponse,
+  KVListResponse,
+  KVGetResponse,
+  KVSetRequest,
+  KVSetResponse,
+
   // SDK Options
   CoreSDKOptions,
   SystemParams
@@ -330,7 +401,7 @@ By default, the SDK performs guest authentication on initialization:
 
 ```typescript
 await coreSDK.init({
-  baseUrl: 'http://localhost:3000'
+  baseUrl: 'https://configs.artintgames.com'
 });
 // Guest token is automatically obtained and cached
 ```
@@ -339,7 +410,7 @@ To skip guest authentication:
 
 ```typescript
 await coreSDK.init({
-  baseUrl: 'http://localhost:3000',
+  baseUrl: 'https://configs.artintgames.com',
   skipAuth: true
 });
 ```
@@ -379,8 +450,8 @@ For endpoints not covered by specialized clients, use the base API client:
 
 ```typescript
 // Access the base API client
-const response = await coreSDK.api.get('/custom/endpoint');
-const data = await coreSDK.api.post('/custom/endpoint', { data: 'value' });
+const response = await coreSDK.api.get('/v1/custom/endpoint');
+const data = await coreSDK.api.post('/v1/custom/endpoint', { data: 'value' });
 ```
 
 ## Event Bus
@@ -424,8 +495,8 @@ async function main() {
   await coreSDK.init({
     app: 'my-game',
     version: '1.0.0',
-    baseUrl: 'http://localhost/v1',
-    authUrl: 'http://localhost/v1',
+    baseUrl: 'https://configs.artintgames.com',
+    authUrl: ' https://auth.artintgames.com',
     skipAuth: true  // We'll handle auth manually
   });
 
@@ -486,6 +557,7 @@ All API endpoints use the `/v1` prefix:
 - Segments: `/v1/segments`
 - Users: `/v1/users`
 - Health: `/v1/version`, `/v1/health`
+- KV Storage: `/v1/kv/health`, `/v1/kv/list`, `/v1/kv/get/:key`, `/v1/kv/set`, `/v1/kv/:key`
 
 ## Browser Support
 
@@ -504,11 +576,11 @@ For script tag inclusion:
 ```html
 <script src="/game-sdk.umd.js"></script>
 <script>
-  const sdk = window.coreSDK;
+  const sdk = window.coreSDK.coreSDK;
   sdk.init({
     app: 'my-game',
     version: '1.0.0',
-    baseUrl: 'http://localhost/v1'
+    baseUrl: 'https://configs.artintgames.com'
   }).then(() => {
     console.log('SDK ready');
   });
