@@ -65,7 +65,7 @@ export const AuthProvider = ({ children }) => {
     try {
       setError(null);
       setIsLoading(true);
-      const response = await sdk.login(credentials);
+      const response = await coreSDK.login(credentials);
       setUser(response.user);
       setIsAuthenticated(true);
       return response;
@@ -81,7 +81,7 @@ export const AuthProvider = ({ children }) => {
     try {
       setError(null);
       setIsLoading(true);
-      const user = await sdk.register(data);
+      const user = await coreSDK.register(data);
       return user;
     } catch (err) {
       setError(err.message);
@@ -93,7 +93,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = useCallback(async () => {
     try {
-      await sdk.logout();
+      await coreSDK.logout();
     } catch (err) {
       console.error('Logout error:', err);
     } finally {
@@ -499,7 +499,7 @@ export const ConfigsDemo = () => {
     const loadConfig = async () => {
       try {
         setLoading(true);
-        const result = await sdk.configs.init({
+        const result = await coreSDK.configs.init({
           v: '1.0.0',
           scopes: ['gameplay', 'ui'],
           segment: 'default'
@@ -545,7 +545,7 @@ export const useConfigs = (version, scopes, segment) => {
     const loadConfig = async () => {
       try {
         setLoading(true);
-        const result = await sdk.configs.init({ v: version, scopes, segment });
+        const result = await coreSDK.configs.init({ v: version, scopes, segment });
         setConfig(result);
         setError(null);
       } catch (err) {
@@ -579,8 +579,8 @@ export const useAbTests = (activeOnly = true) => {
       try {
         setLoading(true);
         const result = activeOnly
-          ? await sdk.abTests.getActive()
-          : await sdk.abTests.getAll();
+          ? await coreSDK.abTests.getActive()
+          : await coreSDK.abTests.getAll();
         setTests(result.items || []);
         setError(null);
       } catch (err) {

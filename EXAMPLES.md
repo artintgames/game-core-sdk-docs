@@ -29,7 +29,7 @@ console.log('SDK:', sdk);
 
 ```javascript
 // Guest authentication (automatic device ID)
-const guestResult = await sdk.auth.guest();
+const guestResult = await coreSDK.auth.guest();
 console.log('Guest auth:', guestResult);
 ```
 
@@ -37,7 +37,7 @@ console.log('Guest auth:', guestResult);
 
 ```javascript
 // Register a new user
-const registerResult = await sdk.register({
+const registerResult = await coreSDK.register({
   email: 'test@example.com',
   username: 'testuser',
   password: 'TestPassword123!'
@@ -49,7 +49,7 @@ console.log('Register result:', registerResult);
 
 ```javascript
 // Login with email and password
-const loginResult = await sdk.login({
+const loginResult = await coreSDK.login({
   email: 'test@example.com',
   password: 'TestPassword123!'
 });
@@ -62,7 +62,7 @@ console.log('User:', loginResult.user);
 
 ```javascript
 // Get current authenticated user
-const me = await sdk.auth.getMe();
+const me = await coreSDK.auth.getMe();
 console.log('Current user:', me);
 ```
 
@@ -70,7 +70,7 @@ console.log('Current user:', me);
 
 ```javascript
 // Logout and clear token
-await sdk.logout();
+await coreSDK.logout();
 console.log('Logged out');
 ```
 
@@ -82,7 +82,7 @@ console.log('Logged out');
 
 ```javascript
 // Get service version
-const version = await sdk.health.getVersion();
+const version = await coreSDK.health.getVersion();
 console.log('Version:', version);
 ```
 
@@ -90,7 +90,7 @@ console.log('Version:', version);
 
 ```javascript
 // Check service health
-const health = await sdk.health.check();
+const health = await coreSDK.health.check();
 console.log('Health:', health);
 ```
 
@@ -102,7 +102,7 @@ console.log('Health:', health);
 
 ```javascript
 // Initialize configuration for your app
-const config = await sdk.configs.init({
+const config = await coreSDK.configs.init({
   v: '1.0.0',
   scopes: ['gameplay', 'ui']
 });
@@ -113,7 +113,7 @@ console.log('Config:', config);
 
 ```javascript
 // Fetch updated configuration
-const updatedConfig = await sdk.configs.fetch({
+const updatedConfig = await coreSDK.configs.fetch({
   v: '1.0.0',
   scopes: ['gameplay']
 });
@@ -128,7 +128,7 @@ console.log('Updated config:', updatedConfig);
 
 ```javascript
 // Get all A/B tests
-const allTests = await sdk.abTests.getAll();
+const allTests = await coreSDK.abTests.getAll();
 console.log('All A/B tests:', allTests);
 ```
 
@@ -136,7 +136,7 @@ console.log('All A/B tests:', allTests);
 
 ```javascript
 // Get only active A/B tests
-const activeTests = await sdk.abTests.getActive();
+const activeTests = await coreSDK.abTests.getActive();
 console.log('Active tests:', activeTests);
 ```
 
@@ -145,7 +145,7 @@ console.log('Active tests:', activeTests);
 ```javascript
 // Get specific A/B test (replace with real ID)
 const testId = 'your-test-id';
-const test = await sdk.abTests.getById(testId);
+const test = await coreSDK.abTests.getById(testId);
 console.log('Test:', test);
 ```
 
@@ -154,7 +154,7 @@ console.log('Test:', test);
 ```javascript
 // Get which variant the user is assigned to
 const testId = 'your-test-id';
-const variant = await sdk.abTests.getVariant(testId);
+const variant = await coreSDK.abTests.getVariant(testId);
 console.log('My variant:', variant);
 ```
 
@@ -166,7 +166,7 @@ console.log('My variant:', variant);
 
 ```javascript
 // Get all remote configurations
-const remoteConfigs = await sdk.remoteConfigs.getAll();
+const remoteConfigs = await coreSDK.remoteConfigs.getAll();
 console.log('Remote configs:', remoteConfigs);
 ```
 
@@ -175,7 +175,7 @@ console.log('Remote configs:', remoteConfigs);
 ```javascript
 // Get specific remote config (replace with real ID)
 const configId = 'your-config-id';
-const remoteConfig = await sdk.remoteConfigs.getById(configId);
+const remoteConfig = await coreSDK.remoteConfigs.getById(configId);
 console.log('Remote config:', remoteConfig);
 ```
 
@@ -187,7 +187,7 @@ console.log('Remote config:', remoteConfig);
 
 ```javascript
 // Get all user segments
-const segments = await sdk.segments.getAll();
+const segments = await coreSDK.segments.getAll();
 console.log('Segments:', segments);
 ```
 
@@ -195,7 +195,7 @@ console.log('Segments:', segments);
 
 ```javascript
 // Get segments the current user belongs to
-const userSegments = await sdk.segments.getUserSegments();
+const userSegments = await coreSDK.segments.getUserSegments();
 console.log('My segments:', userSegments);
 ```
 
@@ -207,7 +207,7 @@ console.log('My segments:', userSegments);
 
 ```javascript
 // Check KV storage service health
-const kvHealth = await sdk.kv.health();
+const kvHealth = await coreSDK.kv.health();
 console.log('KV Health:', kvHealth);
 ```
 
@@ -215,7 +215,7 @@ console.log('KV Health:', kvHealth);
 
 ```javascript
 // List all stored keys
-const keys = await sdk.kv.list();
+const keys = await coreSDK.kv.list();
 console.log('Keys:', keys);
 ```
 
@@ -223,7 +223,7 @@ console.log('Keys:', keys);
 
 ```javascript
 // Store a value
-await sdk.kv.set('my-key', 'my-value');
+await coreSDK.kv.set('my-key', 'my-value');
 console.log('Value saved');
 ```
 
@@ -231,7 +231,7 @@ console.log('Value saved');
 
 ```javascript
 // Retrieve a value
-const result = await sdk.kv.get('my-key');
+const result = await coreSDK.kv.get('my-key');
 console.log('Value:', result.value);
 ```
 
@@ -239,7 +239,7 @@ console.log('Value:', result.value);
 
 ```javascript
 // Delete a key
-await sdk.kv.delete('my-key');
+await coreSDK.kv.delete('my-key');
 console.log('Key deleted');
 ```
 
@@ -248,11 +248,11 @@ console.log('Key deleted');
 ```javascript
 // Store JSON object
 const settings = { sound: true, music: false, volume: 80 };
-await sdk.kv.set('player-settings', JSON.stringify(settings));
+await coreSDK.kv.set('player-settings', JSON.stringify(settings));
 console.log('Settings saved');
 
 // Retrieve JSON object
-const result = await sdk.kv.get('player-settings');
+const result = await coreSDK.kv.get('player-settings');
 const loadedSettings = JSON.parse(result.value);
 console.log('Settings:', loadedSettings);
 ```
@@ -265,7 +265,7 @@ console.log('Settings:', loadedSettings);
 
 ```javascript
 // Get current user profile
-const profile = await sdk.profile.getMe();
+const profile = await coreSDK.profile.getMe();
 console.log('My profile:', profile);
 ```
 
@@ -273,7 +273,7 @@ console.log('My profile:', profile);
 
 ```javascript
 // Update profile data
-const updatedProfile = await sdk.profile.update({
+const updatedProfile = await coreSDK.profile.update({
   displayName: 'New Display Name'
 });
 console.log('Updated profile:', updatedProfile);
@@ -284,7 +284,7 @@ console.log('Updated profile:', updatedProfile);
 ```javascript
 // Get another user's profile (replace with real GID)
 const gid = 'user-gid-here';
-const otherProfile = await sdk.profile.getByGid(gid);
+const otherProfile = await coreSDK.profile.getByGid(gid);
 console.log('Profile:', otherProfile);
 ```
 
@@ -296,7 +296,7 @@ console.log('Profile:', otherProfile);
 
 ```javascript
 // Send analytics event
-await sdk.events.send({
+await coreSDK.events.send({
   name: 'game_start',
   data: { level: 1, mode: 'classic' },
   timestamp: Date.now()
@@ -308,7 +308,7 @@ console.log('Event sent');
 
 ```javascript
 // Get all events
-const events = await sdk.events.getAll();
+const events = await coreSDK.events.getAll();
 console.log('Events:', events);
 ```
 
@@ -362,23 +362,23 @@ sdk.once('game:level_complete', (data) => {
 
   // 1. Check health
   console.log('1. Checking health...');
-  const health = await sdk.health.check();
+  const health = await coreSDK.health.check();
   console.log('Health:', health.status);
 
   // 2. Get version
   console.log('\n2. Getting version...');
-  const version = await sdk.health.getVersion();
+  const version = await coreSDK.health.getVersion();
   console.log('Version:', version.version);
 
   // 3. Guest auth
   console.log('\n3. Guest authentication...');
-  const guest = await sdk.auth.guest();
+  const guest = await coreSDK.auth.guest();
   console.log('Guest token received:', !!guest.accessToken);
 
   // 4. Get configs
   console.log('\n4. Getting configs...');
   try {
-    const config = await sdk.configs.init({ v: '1.0.0', scopes: ['gameplay'] });
+    const config = await coreSDK.configs.init({ v: '1.0.0', scopes: ['gameplay'] });
     console.log('Config:', config);
   } catch (e) {
     console.log('Config error (expected if not configured):', e.message);
@@ -387,7 +387,7 @@ sdk.once('game:level_complete', (data) => {
   // 5. Get A/B tests
   console.log('\n5. Getting A/B tests...');
   try {
-    const tests = await sdk.abTests.getActive();
+    const tests = await coreSDK.abTests.getActive();
     console.log('Active tests:', tests.items?.length || 0);
   } catch (e) {
     console.log('A/B tests error:', e.message);
@@ -396,10 +396,10 @@ sdk.once('game:level_complete', (data) => {
   // 6. KV Storage test
   console.log('\n6. Testing KV Storage...');
   try {
-    await sdk.kv.set('test-key', 'test-value-' + Date.now());
-    const result = await sdk.kv.get('test-key');
+    await coreSDK.kv.set('test-key', 'test-value-' + Date.now());
+    const result = await coreSDK.kv.get('test-key');
     console.log('KV test value:', result.value);
-    await sdk.kv.delete('test-key');
+    await coreSDK.kv.delete('test-key');
     console.log('KV test key deleted');
   } catch (e) {
     console.log('KV error:', e.message);
@@ -416,7 +416,7 @@ sdk.once('game:level_complete', (data) => {
 ```javascript
 // Wrap API calls in try-catch
 try {
-  const result = await sdk.login({
+  const result = await coreSDK.login({
     email: 'wrong@email.com',
     password: 'wrongpassword'
   });
