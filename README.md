@@ -17,8 +17,7 @@ Handles authentication, environment detection, device ID, token storage, event s
 - **Auto Authentication** - Guest auth with token caching
 - **Environment Detection** - Cordova / Web / Mobile
 - **Device ID Management** - Auto-generation + persistent cache
-- **Built-in EventBus** - `on`, `once`, `off`, `emit`
-- **API Clients** - Configs, A/B Tests, Remote Configs, Segments, Users, Health
+- **API Clients** - Configs
 - **Error Tracking** - Sentry integration
 - **Production Ready** - ES & UMD bundles
 
@@ -86,9 +85,6 @@ const config = await coreSDK.configs.init({
   v: "1.0.0",
   scopes: ["gameplay", "ui"]
 });
-
-const tests = await coreSDK.abTests.getActive();
-console.log("Active A/B tests:", tests);
 ```
 
 ---
@@ -100,66 +96,6 @@ console.log("Active A/B tests:", tests);
 await coreSDK.configs.init({ v, scopes, segment })
 await coreSDK.configs.fetch({ v, scopes })
 ```
-
-### A/B Tests (`coreSDK.abTests`)
-```javascript
-await coreSDK.abTests.getAll()
-await coreSDK.abTests.getActive()
-await coreSDK.abTests.getById(id)
-await coreSDK.abTests.create({ key, name, groups, ... })
-await coreSDK.abTests.update(id, data)
-await coreSDK.abTests.patch(id, partial)
-await coreSDK.abTests.delete(id)
-```
-
-### Remote Configs (`coreSDK.remoteConfigs`)
-```javascript
-await coreSDK.remoteConfigs.getAll()
-await coreSDK.remoteConfigs.getById(id)
-await coreSDK.remoteConfigs.create({ key, scope, name, data, ... })
-await coreSDK.remoteConfigs.update(id, data)
-await coreSDK.remoteConfigs.delete(id)
-```
-
-### Segments (`coreSDK.segments`)
-```javascript
-await coreSDK.segments.getAll()
-await coreSDK.segments.getById(id)
-await coreSDK.segments.create({ name, filters, ... })
-await coreSDK.segments.update(id, data)
-await coreSDK.segments.delete(id)
-```
-
-### Users (`coreSDK.users`)
-```javascript
-await coreSDK.users.getAll()
-await coreSDK.users.getById(id)
-await coreSDK.users.create({ email, username, password })
-await coreSDK.users.update(id, data)
-await coreSDK.users.delete(id)
-```
-
-### Health (`coreSDK.health`)
-```javascript
-await coreSDK.health.getVersion()
-await coreSDK.health.check()
-```
-
----
-
-## 🔑 Event System
-
-```javascript
-// Subscribe to events
-coreSDK.on("core:initialized", (params) => {
-  console.log("SDK ready", params);
-});
-
-// Emit custom events
-coreSDK.emit("game:finish", { score: 100 });
-```
-
----
 
 ## 📚 Documentation
 

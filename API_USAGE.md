@@ -14,12 +14,11 @@ npm install game-sdk
 import { coreSDK } from 'game-sdk';
 
 await coreSDK.init({
-  app: 'my-game',
-  version: '1.0.0',
-  baseUrl: 'http://localhost/v1',      // Configs service URL
-  authUrl: 'http://localhost/v1',       // Auth service URL (optional)
-  sentryDsn: 'your-sentry-dsn',           // optional
-  skipAuth: false                          // Skip guest authentication (default: false)
+    app: 'my-game',
+    version: '1.0.20',
+    baseUrl: 'https://configs.artintgames.com',      // Configs service URL (optional)
+    authUrl: 'https://auth.artintgames.com',       // Auth service URL (optional)
+    sentryDsn: 'your-sentry-dsn',           // optional
 });
 ```
 
@@ -32,42 +31,12 @@ await coreSDK.init({
 | `baseUrl` | string | No | Base API URL (must include /v1) |
 | `authUrl` | string | No | Auth API URL (must include /v1) |
 | `sentryDsn` | string | No | Sentry DSN for error tracking |
-| `skipAuth` | boolean | No | Skip guest authentication during init |
 
 ## API Clients
 
 The SDK exposes the following API clients through the `coreSDK` instance:
 
-### 1. Auth API (`coreSDK.auth`)
-
-User authentication and registration:
-
-```typescript
-// Register new user
-const user = await coreSDK.register({
-  email: 'user@example.com',
-  username: 'john_doe',
-  password: 'SecurePassword123!'
-});
-
-// Login user
-const authResponse = await coreSDK.login({
-  email: 'user@example.com',
-  password: 'SecurePassword123!'
-});
-// Returns: { accessToken, refreshToken, user }
-
-// Logout
-await coreSDK.logout();
-
-// Get current user profile (via auth client)
-const profile = await coreSDK.auth.getMe();
-
-// Refresh token
-const newTokens = await coreSDK.auth.refresh();
-```
-
-### 2. Configs API (`coreSDK.configs`)
+### 1. Configs API (`coreSDK.configs`)
 
 Initialize and fetch configurations:
 
@@ -86,406 +55,23 @@ const updatedConfig = await coreSDK.configs.fetch({
 });
 ```
 
-### 3. A/B Tests API (`coreSDK.abTests`)
+### 2. KV API (`coreSDK.kv`)
 
-Manage A/B testing experiments:
-
-```typescript
-// Get all A/B tests
-const allTests = await coreSDK.abTests.getAll();
-
-// Get active A/B tests
-const activeTests = await coreSDK.abTests.getActive();
-
-// Get specific A/B test
-const test = await coreSDK.abTests.getById('test-id');
-
-// Create new A/B test
-const newTest = await coreSDK.abTests.create({
-  key: 'test_new_feature',
-  name: 'New Feature Test',
-  filters: { country: 'US' },
-  startDate: Date.now(),
-  groups: [
-    { key: 'control', name: 'Control', percentage: 50 },
-    { key: 'variant', name: 'Variant', percentage: 50 }
-  ]
-});
-
-// Full update (PUT)
-const updated = await coreSDK.abTests.update('test-id', {
-  name: 'Updated Test Name',
-  groups: [...]
-});
-
-// Partial update (PATCH)
-const patched = await coreSDK.abTests.patch('test-id', {
-  name: 'New Name'
-});
-
-// Delete A/B test
-await coreSDK.abTests.delete('test-id');
-```
-
-### 4. Remote Configs API (`coreSDK.remoteConfigs`)
-
-Manage remote configurations:
+Initialize and fetch configurations:
 
 ```typescript
-// Get all remote configurations
-const allConfigs = await coreSDK.remoteConfigs.getAll();
+// Fetch all key-value pairs
+const kvList = await coreSDK.kv.list();
 
-// Get specific remote config
-const config = await coreSDK.remoteConfigs.getById('config-id');
-
-// Create new remote configuration
-const newConfig = await coreSDK.remoteConfigs.create({
-  key: 'ui_settings',
-  scope: 'ui',
-  name: 'UI Settings',
-  filters: { platform: 'web' },
-  data: { theme: 'dark', language: 'en' }
-});
-
-// Update remote configuration
-const updated = await coreSDK.remoteConfigs.update('config-id', {
-  data: { theme: 'light' }
-});
-
-// Delete remote configuration
-await coreSDK.remoteConfigs.delete('config-id');
+// Example response
+// {
+//   items: [
+//     { key: "settings.volume", value: "80" },
+//     { key: "progress.level", value: "5" }
+//   ]
+// }
 ```
 
-### 5. Segments API (`coreSDK.segments`)
-
-Manage user segments:
-
-```typescript
-// Get all segments
-const allSegments = await coreSDK.segments.getAll();
-
-// Get specific segment
-const segment = await coreSDK.segments.getById('segment-id');
-
-// Create new segment
-const newSegment = await coreSDK.segments.create({
-  name: 'Premium Users',
-  description: 'Users with premium subscription',
-  filters: { subscriptionType: 'premium' }
-});
-
-// Update segment
-const updated = await coreSDK.segments.update('segment-id', {
-  name: 'VIP Users'
-});
-
-// Delete segment
-await coreSDK.segments.delete('segment-id');
-```
-
-### 6. Users API (`coreSDK.users`)
-
-Manage users:
-
-```typescript
-// Get all users
-const allUsers = await coreSDK.users.getAll();
-
-// Get specific user
-const user = await coreSDK.users.getById('user-id');
-
-// Create new user
-const newUser = await coreSDK.users.create({
-  email: 'user@example.com',
-  username: 'john_doe',
-  password: 'SecurePassword123!'
-});
-
-// Update user
-const updated = await coreSDK.users.update('user-id', {
-  email: 'newemail@example.com'
-});
-
-// Delete user
-await coreSDK.users.delete('user-id');
-```
-
-### 7. Health API (`coreSDK.health`)
-
-Check service health and version:
-
-```typescript
-// Get service version
-const version = await coreSDK.health.getVersion();
-console.log(version.version, version.name);
-
-// Health check
-const health = await coreSDK.health.check();
-console.log(health.status, health.timestamp);
-```
-
-## Using Standalone API Clients
-
-You can also use the API clients independently:
-
-```typescript
-import {
-  ApiClient,
-  ConfigsApiClient,
-  AbTestsApiClient,
-  RemoteConfigsApiClient,
-  AuthApiClient
-} from 'game-sdk';
-
-// Create API client with custom auth token getter
-const apiClient = new ApiClient(() => 'your-auth-token');
-
-// Create specific API clients
-const configsClient = new ConfigsApiClient(apiClient);
-const abTestsClient = new AbTestsApiClient(apiClient);
-const authClient = new AuthApiClient(() => 'your-auth-token');
-
-// Use the clients
-const config = await configsClient.init({ v: '1.0.0' });
-const tests = await abTestsClient.getActive();
-```
-
-## TypeScript Types
-
-All API request and response types are exported:
-
-```typescript
-import type {
-  // Authentication
-  LoginCredentials,
-  RegisterData,
-  AuthResponse,
-  UserProfile,
-
-  // Configs
-  InitConfigRequest,
-  FetchConfigRequest,
-  ConfigResponse,
-
-  // A/B Tests
-  AbTest,
-  AbTestGroup,
-  CreateAbTestRequest,
-  UpdateAbTestRequest,
-  AbTestListResponse,
-
-  // Remote Configs
-  RemoteConfig,
-  CreateRemoteConfigRequest,
-  UpdateRemoteConfigRequest,
-  RemoteConfigListResponse,
-
-  // Segments
-  Segment,
-  CreateSegmentRequest,
-  UpdateSegmentRequest,
-  SegmentListResponse,
-
-  // Users
-  User,
-  CreateUserRequest,
-  UpdateUserRequest,
-  UserListResponse,
-
-  // Health
-  VersionResponse,
-  HealthResponse,
-
-  // SDK Options
-  CoreSDKOptions,
-  SystemParams
-} from 'game-sdk';
-```
-
-## Error Handling
-
-All API methods throw errors on failure. Validation errors from the server are automatically parsed and joined:
-
-```typescript
-try {
-  const user = await coreSDK.register({
-    email: 'invalid',
-    username: 'ab',  // too short
-    password: '123'  // too weak
-  });
-} catch (error) {
-  // Error message contains all validation errors:
-  // "email must be an email, username must be at least 3 characters, password is too weak"
-  console.error('Registration failed:', error.message);
-}
-```
-
-## Authentication
-
-The SDK provides multiple authentication methods:
-
-### Guest Authentication (Automatic)
-
-By default, the SDK performs guest authentication on initialization:
-
-```typescript
-await coreSDK.init({
-  baseUrl: 'http://localhost:3000'
-});
-// Guest token is automatically obtained and cached
-```
-
-To skip guest authentication:
-
-```typescript
-await coreSDK.init({
-  baseUrl: 'http://localhost:3000',
-  skipAuth: true
-});
-```
-
-### User Authentication
-
-```typescript
-// Register new user
-const user = await coreSDK.register({
-  email: 'user@example.com',
-  username: 'john_doe',
-  password: 'SecurePassword123!'
-});
-
-// Login
-const { accessToken, user } = await coreSDK.login({
-  email: 'user@example.com',
-  password: 'SecurePassword123!'
-});
-
-// Token is automatically stored and used for subsequent requests
-
-// Logout
-await coreSDK.logout();
-// Token is cleared from localStorage
-```
-
-### Token Storage
-
-Tokens are automatically stored in localStorage:
-- `coreSDK_token` - Authentication token
-- `coreSDK_deviceId` - Device identifier
-
-## Direct API Access
-
-For endpoints not covered by specialized clients, use the base API client:
-
-```typescript
-// Access the base API client
-const response = await coreSDK.api.get('/custom/endpoint');
-const data = await coreSDK.api.post('/custom/endpoint', { data: 'value' });
-```
-
-## Event Bus
-
-The SDK includes an event bus for inter-component communication:
-
-```typescript
-// Subscribe to events
-coreSDK.on('core:initialized', (systemParams) => {
-  console.log('SDK initialized', systemParams);
-});
-
-// Auth window events
-coreSDK.on('core:authWindowOpen', () => {
-  console.log('Auth window opened');
-});
-
-coreSDK.on('core:authWindowClose', () => {
-  console.log('Auth window closed');
-});
-
-// Emit custom events
-coreSDK.emit('game:event', { data: 'value' });
-
-// Unsubscribe from events
-coreSDK.off('core:initialized', handler);
-
-// One-time listener
-coreSDK.once('core:initialized', (systemParams) => {
-  console.log('SDK initialized (once)');
-});
-```
-
-## Complete Example
-
-```typescript
-import { coreSDK } from 'game-sdk';
-
-async function main() {
-  // Initialize SDK with separate auth service
-  await coreSDK.init({
-    app: 'my-game',
-    version: '1.0.0',
-    baseUrl: 'http://localhost/v1',
-    authUrl: 'http://localhost/v1',
-    skipAuth: true  // We'll handle auth manually
-  });
-
-  // Check service health
-  const health = await coreSDK.health.check();
-  console.log('Service status:', health.status);
-
-  // Register new user
-  try {
-    const user = await coreSDK.register({
-      email: 'player@game.com',
-      username: 'player1',
-      password: 'SecurePassword123!'
-    });
-    console.log('Registered:', user);
-  } catch (error) {
-    console.log('Registration failed (user may exist):', error.message);
-  }
-
-  // Login
-  const { accessToken, user } = await coreSDK.login({
-    email: 'player@game.com',
-    password: 'SecurePassword123!'
-  });
-  console.log('Logged in as:', user.username);
-
-  // Initialize game configuration
-  const config = await coreSDK.configs.init({
-    v: '1.0.0',
-    scopes: ['gameplay', 'ui'],
-    segment: 'default'
-  });
-  console.log('Config loaded:', config);
-
-  // Get active A/B tests
-  const activeTests = await coreSDK.abTests.getActive();
-  console.log('Active tests:', activeTests);
-
-  // Get remote configurations
-  const remoteConfigs = await coreSDK.remoteConfigs.getAll();
-  console.log('Remote configs:', remoteConfigs);
-
-  // Logout when done
-  await coreSDK.logout();
-}
-
-main().catch(console.error);
-```
-
-## API Versioning
-
-All API endpoints use the `/v1` prefix:
-
-- Auth: `/v1/auth/login`, `/v1/auth/registration`, `/v1/auth/logout`
-- Configs: `/v1/configs/init`, `/v1/configs/fetch`
-- A/B Tests: `/v1/ab-tests`
-- Remote Configs: `/v1/remote-configs`
-- Segments: `/v1/segments`
-- Users: `/v1/users`
-- Health: `/v1/version`, `/v1/health`
 
 ## Browser Support
 
@@ -504,18 +90,18 @@ For script tag inclusion:
 ```html
 <script src="/game-sdk.umd.js"></script>
 <script>
-  const sdk = window.coreSDK;
-  sdk.init({
-    app: 'my-game',
-    version: '1.0.0',
-    baseUrl: 'http://localhost/v1'
-  }).then(() => {
-    console.log('SDK ready');
-  });
+    const sdk = window.coreSDK;
+    sdk.init({
+        app: 'my-game',
+        version: '1.0.0',
+        baseUrl: 'http://localhost/v1'
+    }).then(() => {
+        console.log('SDK ready');
+    });
 </script>
 ```
 
 ---
 
 **Last Updated**: December 2025
-**Version**: 1.0.1
+**Version**: 1.0.20

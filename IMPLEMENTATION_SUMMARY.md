@@ -11,51 +11,11 @@ Implemented complete API interaction layer in `game-core-sdk` for all endpoints 
 Comprehensive TypeScript interfaces for all API endpoints:
 
 - **Configs API**: `InitConfigRequest`, `FetchConfigRequest`, `ConfigResponse`
-- **A/B Tests API**: `AbTest`, `AbTestGroup`, `CreateAbTestRequest`, `UpdateAbTestRequest`, `AbTestListResponse`
-- **Remote Configs API**: `RemoteConfig`, `CreateRemoteConfigRequest`, `UpdateRemoteConfigRequest`, `RemoteConfigListResponse`
-- **Segments API**: `Segment`, `CreateSegmentRequest`, `UpdateSegmentRequest`, `SegmentListResponse`
-- **Users API**: `User`, `CreateUserRequest`, `UpdateUserRequest`, `UserListResponse`
-- **Health API**: `VersionResponse`, `HealthResponse`
 
 ### 2. API Client Classes
 
 #### `src/clients/ConfigsApiClient.ts`
 - `init(request)` - POST /configs/init
-- `fetch(request)` - POST /configs/fetch
-
-#### `src/clients/AbTestsApiClient.ts`
-- `getAll()` - GET /ab-tests
-- `getActive()` - GET /ab-tests/active
-- `getById(id)` - GET /ab-tests/:id
-- `create(request)` - POST /ab-tests
-- `update(id, request)` - PUT /ab-tests/:id
-- `patch(id, request)` - PATCH /ab-tests/:id
-- `delete(id)` - DELETE /ab-tests/:id
-
-#### `src/clients/RemoteConfigsApiClient.ts`
-- `getAll()` - GET /remote-configs
-- `getById(id)` - GET /remote-configs/:id
-- `create(request)` - POST /remote-configs
-- `update(id, request)` - PATCH /remote-configs/:id
-- `delete(id)` - DELETE /remote-configs/:id
-
-#### `src/clients/SegmentsApiClient.ts`
-- `getAll()` - GET /segments
-- `getById(id)` - GET /segments/:id
-- `create(request)` - POST /segments
-- `update(id, request)` - PATCH /segments/:id
-- `delete(id)` - DELETE /segments/:id
-
-#### `src/clients/UsersApiClient.ts`
-- `getAll()` - GET /users
-- `getById(id)` - GET /users/:id
-- `create(request)` - POST /users
-- `update(id, request)` - PATCH /users/:id
-- `delete(id)` - DELETE /users/:id
-
-#### `src/clients/HealthApiClient.ts`
-- `getVersion()` - GET /
-- `check()` - GET /health
 
 ### 3. Enhanced ApiClient (`src/ApiClient.ts`)
 
@@ -72,11 +32,6 @@ Exposed all API clients through the main SDK instance:
 
 ```typescript
 coreSDK.configs       // ConfigsApiClient
-coreSDK.abTests       // AbTestsApiClient
-coreSDK.remoteConfigs // RemoteConfigsApiClient
-coreSDK.segments      // SegmentsApiClient
-coreSDK.users         // UsersApiClient
-coreSDK.health        // HealthApiClient
 ```
 
 ### 5. Exports (`src/index.ts`)
@@ -132,23 +87,6 @@ const config = await coreSDK.configs.init({
   v: '1.0.0',
   scopes: ['gameplay', 'ui']
 });
-
-// A/B Tests
-const activeTests = await coreSDK.abTests.getActive();
-const newTest = await coreSDK.abTests.create({ ... });
-
-// Remote Configs
-const configs = await coreSDK.remoteConfigs.getAll();
-await coreSDK.remoteConfigs.update('id', { data: { ... } });
-
-// Segments
-const segments = await coreSDK.segments.getAll();
-
-// Users
-const users = await coreSDK.users.getAll();
-
-// Health
-const health = await coreSDK.health.check();
 ```
 
 ## Features
