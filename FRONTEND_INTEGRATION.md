@@ -156,7 +156,7 @@ export const SDKProvider = ({ children }) => {
           {
             app: 'ai-games-platform',
             version: '1.0.0',
-            baseUrl: process.env.REACT_APP_BACKEND_URL || 'https://configs.artintgames.com',
+            baseUrl: process.env.REACT_APP_BACKEND_URL_CONFIG || 'https://configs.artintgames.com',
             authUrl: process.env.REACT_APP_BACKEND_URL_AUTH || 'https://auth.artintgames.com',
             skipAuth: true // Skip guest auth - we handle auth manually
           },
@@ -700,7 +700,7 @@ Add to `src/styles.css`:
 Create `.env` file:
 
 ```env
-REACT_APP_BACKEND_URL=https://configs.artintgames.com
+REACT_APP_BACKEND_URL_CONFIG=https://configs.artintgames.com
 REACT_APP_BACKEND_URL_AUTH= https://auth.artintgames.com
 ```
 
@@ -729,7 +729,7 @@ export const SDKProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         await coreSDK.init({
           app: 'ai-games-platform',
           version: '1.0.0',
-          baseUrl: process.env.REACT_APP_BACKEND_URL || 'https://configs.artintgames.com',
+          baseUrl: process.env.REACT_APP_BACKEND_URL_CONFIG || 'https://configs.artintgames.com',
           authUrl: process.env.REACT_APP_BACKEND_URL_AUTH || ' https://auth.artintgames.com',
           skipAuth: true
         });
