@@ -13,7 +13,7 @@ function B(s) {
     if (t) return t;
   }
 }
-const V = B("REACT_APP_BACKEND_URL") || "https://configs.artintgames.com", j = B("REACT_APP_BACKEND_URL_AUTH") || " https://auth.artintgames.com", m = {
+const V = B("REACT_APP_BACKEND_URL_ADMIN_PANEL") || "https://configs.artintgames.com", j = B("REACT_APP_BACKEND_URL_AUTH") || " https://auth.artintgames.com", m = {
   baseUrl: V,
   authUrl: j
 };
