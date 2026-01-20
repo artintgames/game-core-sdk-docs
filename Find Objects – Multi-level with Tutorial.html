@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<!-- saved from url=(0053)https://stage.artintgames.com/game/testpic/index.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
 <title>Find Objects – Multi-level with Tutorial</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -25,7 +25,7 @@
     overflow: hidden;
   }
 
-  /* Dim active screen  when auth overlay is visible */
+  /* Dim active screen when auth overlay is visible */
   body.login-active .screen.active{
     opacity: 0.4;
     transform: translateZ(0);
@@ -1401,161 +1401,11 @@
     font-weight: 900;
   }
 </style>
-<style id="coresdk-auth-styles">
-            .coresdk-auth-backdrop {
-                position: fixed;
-                inset: 0;
-                background: rgba(0, 0, 0, 0.5);
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                z-index: 999999;
-                animation: coresdk-fadeIn 0.2s ease;
-            }
-
-            @keyframes coresdk-fadeIn {
-                from { opacity: 0; }
-                to { opacity: 1; }
-            }
-
-            @keyframes coresdk-slideUp {
-                from {
-                    opacity: 0;
-                    transform: translateY(20px) scale(0.95);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0) scale(1);
-                }
-            }
-
-            .coresdk-auth-modal {
-                background: #fff;
-                border-radius: 16px;
-                padding: 32px;
-                width: 340px;
-                max-width: 90vw;
-                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-                animation: coresdk-slideUp 0.3s ease;
-            }
-
-            .coresdk-auth-title {
-                margin: 0 0 8px;
-                font-size: 22px;
-                font-weight: 600;
-                color: #1a1a1a;
-                text-align: center;
-                font-family: system-ui, -apple-system, sans-serif;
-            }
-
-            .coresdk-auth-subtitle {
-                margin: 0 0 24px;
-                font-size: 14px;
-                color: #666;
-                text-align: center;
-                font-family: system-ui, -apple-system, sans-serif;
-            }
-
-            .coresdk-auth-buttons {
-                display: flex;
-                flex-direction: column;
-                gap: 12px;
-            }
-
-            .coresdk-auth-btn {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 12px;
-                padding: 14px 20px;
-                border-radius: 12px;
-                font-size: 15px;
-                font-weight: 500;
-                cursor: pointer;
-                transition: all 0.2s ease;
-                border: none;
-                font-family: system-ui, -apple-system, sans-serif;
-            }
-
-            .coresdk-auth-btn:disabled {
-                opacity: 0.5;
-                cursor: not-allowed;
-            }
-
-            .coresdk-auth-btn-google {
-                background: #fff;
-                border: 1px solid #ddd;
-                color: #333;
-            }
-
-            .coresdk-auth-btn-google:hover:not(:disabled) {
-                background: #f8f8f8;
-                border-color: #ccc;
-                transform: translateY(-1px);
-            }
-
-            .coresdk-auth-btn-guest {
-                background: #333;
-                color: #fff;
-            }
-
-            .coresdk-auth-btn-guest:hover:not(:disabled) {
-                background: #444;
-                transform: translateY(-1px);
-            }
-
-            .coresdk-auth-btn svg {
-                flex-shrink: 0;
-            }
-
-            .coresdk-auth-hint {
-                margin: 20px 0 0;
-                font-size: 12px;
-                color: #999;
-                text-align: center;
-                font-family: system-ui, -apple-system, sans-serif;
-            }
-
-            .coresdk-auth-btn.loading {
-                pointer-events: none;
-                opacity: 0.7;
-            }
-
-            .coresdk-auth-btn.loading span {
-                opacity: 0.5;
-            }
-        </style><style id="quickform-styles">
-    @keyframes slideIn {
-      from {
-        transform: translateX(400px);
-        opacity: 0;
-      }
-      to {
-        transform: translateX(0);
-        opacity: 1;
-      }
-    }
-    @keyframes slideOut {
-      from {
-        transform: translateX(0);
-        opacity: 1;
-      }
-      to {
-        transform: translateX(400px);
-        opacity: 0;
-      }
-    }
-  </style><style id="quickform-picker-styles">
-    .quickform-picker-highlight {
-      outline: 2px solid #6366f1 !important;
-      outline-offset: 2px !important;
-      background-color: rgba(99, 102, 241, 0.1) !important;
-    }
-  </style></head>
+</head>
 <body>
 
 <!-- SPLASH SCREEN -->
-<div id="splashScreen" class="screen">
+<div id="splashScreen" class="screen active">
   <div class="splash-wrapper">
     <div class="splash-top-block">
       <div class="splash-title">Hidden Objects</div>
@@ -1583,18 +1433,18 @@
 
     <div class="login-field" id="registerNameField" style="display:none;">
       <label for="registerName">Player name</label>
-      <input id="registerName" type="text" placeholder="Your name (optional)" autocomplete="off">
+      <input id="registerName" type="text" placeholder="Your name (optional)" autocomplete="off" />
     </div>
 
-    <input id="avatarFileInput" type="file" accept="image/*" style="display:none">
+    <input id="avatarFileInput" type="file" accept="image/*" style="display:none" />
 
     <div class="login-field">
       <label for="loginEmail">Email</label>
-      <input id="loginEmail" type="email" placeholder="admin@gmail.com" autocomplete="off">
+      <input id="loginEmail" type="email" placeholder="admin@gmail.com" autocomplete="off" />
     </div>
     <div class="login-field">
       <label for="loginPassword">Password</label>
-      <input id="loginPassword" type="password" placeholder="admin">
+      <input id="loginPassword" type="password" placeholder="admin" />
     </div>
 
     <button class="btn login-btn" id="loginSubmitBtn">Log in</button>
@@ -1614,7 +1464,7 @@
 </div>
 
 <!-- TUTORIAL SCREEN -->
-<div id="tutorialScreen" class="screen active">
+<div id="tutorialScreen" class="screen">
   <div class="game-wrapper tutorial-wrapper">
     <div class="hud">
       <div class="hud-title-row">
@@ -1634,20 +1484,41 @@
       </div>
     </div>
 
-    <div class="game" id="tutorialGame" style="aspect-ratio: 1024 / 1536;">
+    <div class="game" id="tutorialGame">
       <button class="tutorial-skip-btn" id="tutorialSkipBtn">Skip</button>
 
       <div class="game-top-buttons">
         <button class="hint-button" id="tutorialHintButton" data-hints="2"></button>
       </div>
 
-      <img src="./Find Objects – Multi-level with Tutorial_files/room_bg.webp" class="game-bg" alt="Tutorial room" id="tutorialBg" draggable="false">
+      <img src="https://stage-configs.artintgames.com/v1/storage/view/9/room_bg.webp" class="game-bg" alt="Tutorial room" id="tutorialBg" draggable="false">
 
-      <img src="./Find Objects – Multi-level with Tutorial_files/book.webp" class="t-item" data-name="Book" data-x="604" data-y="940" data-w="132" data-h="198" draggable="false" style="left: 99.0938px; top: 154.219px; width: 21.6562px; height: 32.4844px;">
+      <img src="https://stage-configs.artintgames.com/v1/storage/view/9/book.webp"
+           class="t-item"
+           data-name="Book"
+           data-x="604"
+           data-y="940"
+           data-w="132"
+           data-h="198"
+           draggable="false">
 
-      <img src="./Find Objects – Multi-level with Tutorial_files/car.webp" class="t-item" data-name="Car" data-x="-8" data-y="401" data-w="78" data-h="117" draggable="false" style="left: -1.3125px; top: 65.7891px; width: 12.7969px; height: 19.1953px;">
+      <img src="https://stage-configs.artintgames.com/v1/storage/view/9/car.webp"
+           class="t-item"
+           data-name="Car"
+           data-x="-8"
+           data-y="401"
+           data-w="78"
+           data-h="117"
+           draggable="false">
 
-      <img src="./Find Objects – Multi-level with Tutorial_files/camera.webp" class="t-item" data-name="Camera" data-x="42" data-y="799" data-w="79" data-h="119" draggable="false" style="left: 6.89062px; top: 131.086px; width: 12.9609px; height: 19.5234px;">
+      <img src="https://stage-configs.artintgames.com/v1/storage/view/9/camera.webp"
+           class="t-item"
+           data-name="Camera"
+           data-x="42"
+           data-y="799"
+           data-w="79"
+           data-h="119"
+           draggable="false">
 
       <div class="tutorial-guide-overlay" id="tutorialGuideOverlay">
         <div class="tutorial-guide-box">
@@ -1661,13 +1532,13 @@
       <div class="overlay" id="tutorialOverlay">
         <div class="overlay-title">Nice! 🎉</div>
         <div class="overlay-text">
-          You’ve found all example objects.<br>Now you’re ready to play!
+          You’ve found all example objects.<br/>Now you’re ready to play!
         </div>
         <button class="btn" id="tutorialContinueBtn">Continue</button>
       </div>
     </div>
 
-    <div class="carousel" id="tutorialCarousel"><div class="carousel-item"><img class="carousel-icon" src="./Find Objects – Multi-level with Tutorial_files/book.webp" alt="Book"><div class="carousel-label">Book</div></div><div class="carousel-item"><img class="carousel-icon" src="./Find Objects – Multi-level with Tutorial_files/car.webp" alt="Car"><div class="carousel-label">Car</div></div><div class="carousel-item"><img class="carousel-icon" src="./Find Objects – Multi-level with Tutorial_files/camera.webp" alt="Camera"><div class="carousel-label">Camera</div></div></div>
+    <div class="carousel" id="tutorialCarousel"></div>
 
     <div class="tutorial-text">
       <p>• At the bottom you see the objects to find.</p>
@@ -1702,7 +1573,9 @@
       <div class="menu-level-info">
         <div class="menu-level-label" id="menuLevelLabel">Level 1</div>
         <div class="menu-level-title" id="menuLevelTitle">Cartoon Room</div>
-        <div class="menu-level-desc" id="menuLevelDesc">Find all hidden objects in this cozy cartoon living room.</div>
+        <div class="menu-level-desc" id="menuLevelDesc">
+          Find all hidden objects in this cozy cartoon living room.
+        </div>
       </div>
 
       <!-- ✅ Play buttons (middle area) -->
@@ -1749,7 +1622,7 @@
       <div class="menu-level-info">
         <div class="menu-level-label">Players</div>
         <!-- ✅ now dynamically rendered (includes current player) -->
-        <div class="scoreboard-players" id="scoreboardPlayers"><div class="scoreboard-player-card is-me"><div class="left"><div class="scoreboard-rank">1</div><div class="player-info"><div class="player-avatar">P</div><div class="player-name">Player (you)</div></div></div><div class="scoreboard-score">0</div></div><div class="scoreboard-player-card"><div class="left"><div class="scoreboard-rank">2</div><div class="player-info"><div class="player-avatar">A</div><div class="player-name">Alice</div></div></div><div class="scoreboard-score">0</div></div><div class="scoreboard-player-card"><div class="left"><div class="scoreboard-rank">3</div><div class="player-info"><div class="player-avatar">B</div><div class="player-name">Bob</div></div></div><div class="scoreboard-score">0</div></div><div class="scoreboard-player-card"><div class="left"><div class="scoreboard-rank">4</div><div class="player-info"><div class="player-avatar">C</div><div class="player-name">Carol</div></div></div><div class="scoreboard-score">0</div></div><div class="scoreboard-player-card"><div class="left"><div class="scoreboard-rank">5</div><div class="player-info"><div class="player-avatar">D</div><div class="player-name">Dan</div></div></div><div class="scoreboard-score">0</div></div></div>
+        <div class="scoreboard-players" id="scoreboardPlayers"></div>
       </div>
     </div>
 
@@ -1792,13 +1665,13 @@
       </div>
     </div>
 
-    <div class="game" id="game" style="aspect-ratio: 1024 / 1536;">
+    <div class="game" id="game">
       <div class="game-top-buttons">
         <button class="hint-button" id="hintButton" data-hints="2"></button>
         <button class="menu-button" id="menuButton">☰</button>
       </div>
 
-      <img src="./Find Objects – Multi-level with Tutorial_files/room_bg.webp" class="game-bg" alt="room" id="roomBg" draggable="false">
+      <img src="https://stage-configs.artintgames.com/v1/storage/view/9/room_bg.webp" class="game-bg" alt="room" id="roomBg" draggable="false">
 
       <div class="overlay" id="overlay">
         <div class="overlay-title" id="overlayTitle">You found everything! 🎉</div>
@@ -1829,7 +1702,7 @@
 
       <div class="settings-row">
         <span class="settings-label">Language</span>
-        <button class="settings-toggle off" id="languageButton" disabled="">English</button>
+        <button class="settings-toggle off" id="languageButton" disabled>English</button>
       </div>
     </div>
 
@@ -1847,10 +1720,10 @@
     <div class="settings-section" id="settingsSectionAuth">
       <div class="settings-section-title">Account</div>
       <div class="settings-auth">
-        <div class="settings-status logged-in" id="authStatus">Logged in as Guest. You can upgrade to Google.</div>
-        <button class="btn settings-btn-auth" id="loginGuestButton" style="display: none;">Login as Guest</button>
-        <button class="btn settings-btn-auth" id="loginGoogleButton" style="display: block;">Login with Google</button>
-        <button class="btn settings-btn-auth settings-btn-logout" id="logoutButton" style="display: block;">Logout</button>
+        <div class="settings-status" id="authStatus">Not logged in</div>
+        <button class="btn settings-btn-auth" id="loginGuestButton">Login as Guest</button>
+        <button class="btn settings-btn-auth" id="loginGoogleButton">Login with Google</button>
+        <button class="btn settings-btn-auth settings-btn-logout" id="logoutButton" style="display: none;">Logout</button>
       </div>
     </div>
 
@@ -3500,7 +3373,7 @@ console.log(coreSDK.getAuthStatus(),"+++++++++++++++++++++++++")
   });
 }
 </script>
-  <script src="./Find Objects – Multi-level with Tutorial_files/game-sdk.umd.af641715.js"></script>
+  <script src="https://stage.artintgames.com/sdk/1.0.80/game-sdk.umd.af641715.js"></script>
   <script>
     (function() {
       const MAX_RETRIES = 20;
@@ -3522,6 +3395,5 @@ console.log(coreSDK.getAuthStatus(),"+++++++++++++++++++++++++")
       tryInitSDK();
     })();
   </script>
-
-
-</body></html>
+</body>
+</html>
