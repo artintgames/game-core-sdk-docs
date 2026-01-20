@@ -1918,12 +1918,61 @@ console.log(coreSDK.getAuthStatus(),"+++++++++++++++++++++++++")
 
   let currentMusic = null;
 
+  // Local test levels (fallback when remote config is unavailable)
+  const LOCAL_TEST_LEVELS = [
+    {
+      id: 1,
+      key: "test-level-1",
+      bg: "https://picsum.photos/1280/720?random=100",
+      menuTitle: "Test Level 1",
+      menuDescription: "Demo level with placeholder objects",
+      items: [
+        { src: "https://placehold.co/80x80/FF6B6B/ffffff?text=1", name: "Red Box", x: 15, y: 25, w: 6, h: 11 },
+        { src: "https://placehold.co/80x80/4ECDC4/ffffff?text=2", name: "Teal Box", x: 45, y: 40, w: 6, h: 11 },
+        { src: "https://placehold.co/80x80/45B7D1/ffffff?text=3", name: "Blue Box", x: 70, y: 55, w: 6, h: 11 },
+        { src: "https://placehold.co/80x80/96CEB4/ffffff?text=4", name: "Green Box", x: 30, y: 65, w: 6, h: 11 },
+        { src: "https://placehold.co/80x80/FFEAA7/333333?text=5", name: "Yellow Box", x: 55, y: 20, w: 6, h: 11 }
+      ]
+    },
+    {
+      id: 2,
+      key: "test-level-2",
+      bg: "https://picsum.photos/1280/720?random=200",
+      menuTitle: "Test Level 2",
+      menuDescription: "Second demo level",
+      items: [
+        { src: "https://placehold.co/80x80/E74C3C/ffffff?text=A", name: "Item A", x: 20, y: 35, w: 6, h: 11 },
+        { src: "https://placehold.co/80x80/9B59B6/ffffff?text=B", name: "Item B", x: 50, y: 50, w: 6, h: 11 },
+        { src: "https://placehold.co/80x80/3498DB/ffffff?text=C", name: "Item C", x: 75, y: 30, w: 6, h: 11 },
+        { src: "https://placehold.co/80x80/2ECC71/ffffff?text=D", name: "Item D", x: 35, y: 70, w: 6, h: 11 },
+        { src: "https://placehold.co/80x80/F39C12/ffffff?text=E", name: "Item E", x: 60, y: 15, w: 6, h: 11 },
+        { src: "https://placehold.co/80x80/1ABC9C/ffffff?text=F", name: "Item F", x: 10, y: 60, w: 6, h: 11 }
+      ]
+    },
+    {
+      id: 3,
+      key: "test-level-3",
+      bg: "https://picsum.photos/1280/720?random=300",
+      menuTitle: "Test Level 3",
+      menuDescription: "Third demo level - harder!",
+      items: [
+        { src: "https://placehold.co/60x60/8E44AD/ffffff?text=1", name: "Purple", x: 12, y: 22, w: 5, h: 8 },
+        { src: "https://placehold.co/60x60/27AE60/ffffff?text=2", name: "Emerald", x: 38, y: 45, w: 5, h: 8 },
+        { src: "https://placehold.co/60x60/E67E22/ffffff?text=3", name: "Orange", x: 65, y: 33, w: 5, h: 8 },
+        { src: "https://placehold.co/60x60/2980B9/ffffff?text=4", name: "Ocean", x: 82, y: 58, w: 5, h: 8 },
+        { src: "https://placehold.co/60x60/C0392B/ffffff?text=5", name: "Crimson", x: 25, y: 72, w: 5, h: 8 },
+        { src: "https://placehold.co/60x60/16A085/ffffff?text=6", name: "Mint", x: 55, y: 68, w: 5, h: 8 },
+        { src: "https://placehold.co/60x60/F1C40F/333333?text=7", name: "Gold", x: 48, y: 12, w: 5, h: 8 }
+      ]
+    }
+  ];
+
   // Load LEVELS from remote config via initConfigs
   const configResult = await coreSDK.initConfigs({
     version: '2.0.0',
     keys: ['testpic-init']
   });
-  const LEVELS = configResult.get('testpic-init.LEVELS');
+  const LEVELS = configResult.get('testpic-init.LEVELS') || LOCAL_TEST_LEVELS;
 
   let currentLevelIndex = 0;
   let maxUnlockedLevel  = 1;
